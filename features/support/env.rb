@@ -11,7 +11,7 @@ Capybara.register_driver :selenium_firefox do |app|
     app,
     browser: :firefox,
     options: options,
-    service: Selenium::WebDriver::Firefox::Service.new(path: '/opt/homebrew/bin/geckodriver')
+    service: Selenium::WebDriver::Firefox::Service.new(path: '/home/adiaz/.bin/geckodriver')
   )
 end
 Capybara.default_driver = :selenium_firefox

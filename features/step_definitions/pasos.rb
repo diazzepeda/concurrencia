@@ -45,8 +45,6 @@ Given('que ejecuto {int} logins simultáneos') do |numero_de_usuarios|
       session.click_button 'Create Documento'
 
       sleep 5
-        FileUtils.rm_rf("#{Rails.root}/features/screenshots/concurrent")
-        
         # screenshot de resultado
         FileUtils.mkdir_p("#{Rails.root}/features/screenshots/concurrent")
         timestamp = Time.now.strftime('%H%M%S_%L')
