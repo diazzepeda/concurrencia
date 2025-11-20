@@ -18,7 +18,7 @@ gem "bootsnap", require: false
 gem "kamal", require: false
 gem "thruster", require: false
 gem 'devise'
-gem "pry-rails", group: :development
+gem "pry-rails"
 
 group :development, :test do
   gem 'cucumber-rails', require: false

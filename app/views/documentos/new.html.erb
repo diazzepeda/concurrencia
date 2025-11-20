@@ -9,4 +9,7 @@
   <%= link_to "Back to documentos", documentos_path %>
 </div>
 
-<%= link_to "Cerrar sesión", destroy_admin_user_session_path, method: :delete %>
+
+  <%= form_with url: destroy_admin_user_session_path, method: :delete do %>
+    <%= submit_tag "Cerrar sesión" %>
+  <% end %>
