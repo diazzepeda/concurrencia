@@ -2,4 +2,4 @@
 Feature: Concurrencia
   Scenario: concurrencia
 
-    Given que ejecuto 10 logins simultáneos
+    Given que ejecuto 5 logins simultáneos

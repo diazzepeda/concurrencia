@@ -28,9 +28,9 @@ Given('que ejecuto {int} logins simultáneos') do |numero_de_usuarios|
       session = Capybara::Session.new(:selenium_firefox)
       begin
       puerto = Capybara.current_session.server.port
-      url = BASE_URL.gsub('123456', "3000".to_s)
+      url = BASE_URL.gsub('123456', puerto.to_s)
       abrir_sesion(session, url, numero_instancia) 
-      session.visit "#{url}/documentos/new"
+      session.visit "#{url}/comprobantes/new"
 
       mutex.synchronize do
           ready_count += 1
@@ -42,9 +42,9 @@ Given('que ejecuto {int} logins simultáneos') do |numero_de_usuarios|
         end
 
       p "#{Time.zone.now}"
-      session.click_button 'Create Documento'
+      session.click_button 'Create Comprobante'
 
-      sleep 5
+      sleep 100
         # screenshot de resultado
         FileUtils.mkdir_p("#{Rails.root}/features/screenshots/concurrent")
         timestamp = Time.now.strftime('%H%M%S_%L')

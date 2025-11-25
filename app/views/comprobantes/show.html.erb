@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @comprobante %>
+
+<div>
+  <%= link_to "Edit this comprobante", edit_comprobante_path(@comprobante) %> |
+  <%= link_to "Back to comprobantes", comprobantes_path %>
+
+  <%= button_to "Destroy this comprobante", @comprobante, method: :delete %>
+</div>

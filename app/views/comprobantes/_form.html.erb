@@ -1,0 +1,63 @@
+<%= form_with(model: comprobante) do |form| %>
+  <% if comprobante.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(comprobante.errors.count, "error") %> prohibited this comprobante from being saved:</h2>
+
+      <ul>
+        <% comprobante.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+
+  <div>
+    <%= form.label :fecha, 'Fecha', style: "display: block" %>
+    <%= form.date_field :fecha, class: "date-input" %> 
+  </div>
+
+  <div>
+    <%= form.label :tipo_comprobante_pago_id, style: "display: block" %>
+    <%= form.number_field :tipo_comprobante_pago_id %>
+  </div>
+
+  <div>
+    <%= form.label :tipo_comprobante_id, style: "display: block" %>
+    <%= form.number_field :tipo_comprobante_id %>
+  </div>
+
+  <div>
+    <%= form.label :num_comp_diario, style: "display: block" %>
+    <%= form.number_field :num_comp_diario %>
+  </div>
+
+  <div>
+    <%= form.label :num_comp_pago, style: "display: block" %>
+    <%= form.number_field :num_comp_pago %>
+  </div>
+
+  <div>
+    <%= form.label :num_comp_egreso, style: "display: block" %>
+    <%= form.number_field :num_comp_egreso %>
+  </div>
+
+  <div>
+    <%= form.label :num_comp_deposito, style: "display: block" %>
+    <%= form.number_field :num_comp_deposito %>
+  </div>
+
+  <div>
+    <%= form.label :num_comp_depreciacion, style: "display: block" %>
+    <%= form.number_field :num_comp_depreciacion %>
+  </div>
+
+  <div>
+    <%= form.label :num_comp_diferencial_cambiario, style: "display: block" %>
+    <%= form.number_field :num_comp_diferencial_cambiario %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

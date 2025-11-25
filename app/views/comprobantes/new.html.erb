@@ -1,0 +1,11 @@
+<% content_for :title, "New comprobante" %>
+
+<h1>New comprobante</h1>
+
+<%= render "form", comprobante: @comprobante %>
+
+<br>
+
+<div>
+  <%= link_to "Back to comprobantes", comprobantes_path %>
+</div>

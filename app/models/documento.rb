@@ -41,4 +41,13 @@ class Documento < ApplicationRecord
   def self.con_contadores_atomicos!
     ApplicationRecord.connection.execute("SELECT nextval('documento_num_seq')").first['nextval']
   end
+
+  def save!
+    begin
+      transaction do
+        super()
+      end
+    rescue
+    end
+  end
 end

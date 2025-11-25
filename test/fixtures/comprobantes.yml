@@ -1,0 +1,21 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  tipo_comprobante_pago_id: 1
+  tipo_comprobante_id: 1
+  num_comp_diario: 1
+  num_comp_pago: 1
+  num_comp_egreso: 1
+  num_comp_deposito: 1
+  num_comp_depreciacion: 1
+  num_comp_diferencial_cambiario: 1
+
+two:
+  tipo_comprobante_pago_id: 1
+  tipo_comprobante_id: 1
+  num_comp_diario: 1
+  num_comp_pago: 1
+  num_comp_egreso: 1
+  num_comp_deposito: 1
+  num_comp_depreciacion: 1
+  num_comp_diferencial_cambiario: 1

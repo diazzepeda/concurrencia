@@ -8,6 +8,10 @@ puts "Creating 20 users..."
   )
 end
 
+Empresa.create!(
+  periodo_comp_pago_id: 3,
+  num_periodo_inicio_pago: 2,
+)
 
 puts "Users created successfully!"
 # db/seeds.rb
@@ -19,5 +23,3 @@ if ActiveRecord::Base.connection.select_value("SELECT COUNT(*) FROM sequences").
 else
   puts "Secuencia ya existe, no se crea de nuevo"
 end
-
-
