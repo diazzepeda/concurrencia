@@ -2,4 +2,4 @@
 Feature: Concurrencia
   Scenario: concurrencia
 
-    Given que ejecuto 5 logins simultáneos
+Given I execute 10 saves at the same to time to comprobantes "errores_en_5_sesiones"

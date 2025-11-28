@@ -3,66 +3,66 @@ Given("I am on the home page") do
   visit new_admin_user_session_path
 end
 
-BASE_URL = "http://127.0.0.1:123456"
-HOME_AD = "/home/adiaz/workspace/ruby/rubyledger_test2"
+ENV_PROD = {
+  proveedor: 'ACEROS MULTIPLES DE NICARAGUA',
+  cuenta_contable_nombre: '1110-0001-0001 / Caja General',
+  host: 'http://s0.agssa.net:14096/ambiente3'
+}
 
-def abrir_sesion(session, url, usuario_id)
-  session.visit("#{url}/admin_users/sign_in")
-  session.fill_in 'admin_user_email', with: "usuario#{usuario_id}@example.com"
-  session.fill_in 'admin_user_password', with: "123456"
-  session.click_button 'Log in'
-end
+ENV_TEST = {
+  proveedor: 'AG SOFTWARE S.A',
+  cuenta_contable_nombre: '5301110 / INSS PATRONAL',
+  host: 'http://127.0.0.1:123456'
+}
 
-Given('que ejecuto {int} logins simultáneos') do |numero_de_usuarios|
-  #Capybara.send(:session_pool).values.each(&:quit)
-  threads = []
-  start_time = Time.now
-  mutex = Mutex.new
-  cv = ConditionVariable.new
-  ready_count = 0
+Given('I execute {int} saves at the same to time to comprobantes {string}') do |numero_de_usuarios, escenario|
+  Capybara.send(:session_pool).values.each(&:quit)
+  hilos = []
+  mutex_sincronizacion = Mutex.new
+  condicion_sincronizacion = ConditionVariable.new
+  sesiones_listas = 0
 
-  numero_de_usuarios.times do |numero_instancia|
-    numero_instancia+= 1
+  url_base = ENV_PROD[:host]
 
-    threads << Thread.new do
-      session = Capybara::Session.new(:selenium_firefox)
+  numero_de_usuarios.times do |indice_instancia|
+    numero_instancia = indice_instancia + 1
+    hilos << Thread.new do
+      sesion = Capybara::Session.new(:selenium_firefox)
       begin
-      puerto = Capybara.current_session.server.port
-      url = BASE_URL.gsub('123456', puerto.to_s)
-      abrir_sesion(session, url, numero_instancia) 
-      session.visit "#{url}/comprobantes/new"
+        p "Iniciando sesión número #{numero_instancia}..."
+        sleep 10
+        iniciar_sesion(sesion, url_base, numero_instancia)
+        sleep 10
+        sesion.visit "#{url_base}/comprobantes/new"
+        sleep 10
+        construir_comprobante(sesion)
+        sleep 10
+        condiciones_por_escenario(sesion, numero_instancia, escenario)
 
-      mutex.synchronize do
-          ready_count += 1
-          if ready_count < numero_de_usuarios
-            cv.wait(mutex)
+        mutex_sincronizacion.synchronize do
+          sesiones_listas += 1
+          p "Sesión #{numero_instancia} lista. Total listas: #{sesiones_listas}/#{numero_de_usuarios}"
+
+          if sesiones_listas < numero_de_usuarios
+            condicion_sincronizacion.wait(mutex_sincronizacion)
           else
-            cv.broadcast
+            condicion_sincronizacion.broadcast
+            p 'Todas las sesiones listas. Iniciando Guardar concurrente.'
           end
         end
 
-      p "#{Time.zone.now}"
-      session.click_button 'Create Comprobante'
+        sesion.click_button 'Guardar'
 
-      sleep 100
-        # screenshot de resultado
-        FileUtils.mkdir_p("#{Rails.root}/features/screenshots/concurrent")
-        timestamp = Time.now.strftime('%H%M%S_%L')
-        screens = session.save_screenshot("#{Rails.root}/features/screenshots/concurrent/user#{numero_instancia}_#{timestamp}.png")
-          puts screens
-        Thread.current[:result] = true
-      rescue => e
-        Thread.current[:result] = false
-        session.save_screenshot("#{Rails.root}/features/screenshots/concurrent/error_user#{numero_instancia}.png") rescue nil
-        puts "❌ Error en usuario#{numero_instancia}: #{e.message}"
+        Thread.current[:resultado] = true
+
+      rescue StandardError => e
+        p "Error en sesión #{numero_instancia}: #{e.message}"
+        Thread.current[:resultado] = false
       ensure
-        session.quit rescue nil
+        p "Cerrando driver de sesión #{numero_instancia}..."
+        sesion.driver.quit
       end
     end
   end
-
-  threads.each(&:join)
-  @results = threads.map { |t| t[:result] }
-
-  @elapsed_time = Time.now - start_time
+  hilos.each(&:join)
 end

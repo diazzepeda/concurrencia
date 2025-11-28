@@ -22,7 +22,7 @@ class ComprobantesController < ApplicationController
   # POST /comprobantes or /comprobantes.json
   def create
     @comprobante = Comprobante.new(comprobante_params)
-
+    @comprobante.asignar_numero
     respond_to do |format|
       if @comprobante.save!
         format.html { redirect_to @comprobante, notice: "Comprobante was successfully created." }
