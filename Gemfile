@@ -1,6 +1,6 @@
 source "https://rubygems.org"
 
-gem "rails", "~> 8.0.2"
+gem "rails", "~> 8.1.1"
 ruby "3.4.7"
 gem 'passenger', '~> 6.1.0'
 gem "propshaft"
